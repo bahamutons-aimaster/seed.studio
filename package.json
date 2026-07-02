@@ -1,0 +1,11 @@
+{
+  "name": "rezz-vze-landing",
+  "version": "1.0.0",
+  "description": "Landing page Content Creator Assistant - rezz.vze",
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}

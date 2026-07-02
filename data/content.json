@@ -1,0 +1,144 @@
+{
+  "brand": {
+    "name": "rezz.vze",
+    "logoIcon": "🌱",
+    "tagline": "Creator Assistant Program"
+  },
+  "nav": {
+    "links": [
+      { "label": "Home", "href": "#home" },
+      { "label": "Tentang", "href": "#tentang" },
+      { "label": "Proses", "href": "#proses" },
+      { "label": "Gabung", "href": "#daftar" },
+      { "label": "FAQ", "href": "#faq" },
+      { "label": "Kontak", "href": "#kontak" }
+    ],
+    "ctaLabel": "Gabung Sekarang"
+  },
+  "hero": {
+    "badge": "Creator Assistant Program",
+    "headlineLines": ["Mulai Langkah", "Pertamamu di", "Content Creation."],
+    "headlineAccentIndex": 2,
+    "subtitle": "Temani, ngobrol, bantu ngonten di kafe selama 2 jam dan dapatkan penghasilan hingga Rp400.000/hari. Training gratis 3x pertemuan. Kalau cocok, lanjut ke project berikutnya!",
+    "ctaPrimary": { "label": "Daftar Sekarang", "href": "#daftar" },
+    "ctaSecondary": { "label": "Lihat Benefit", "href": "#benefit" },
+    "image": "https://picsum.photos/seed/rezzherobig/1200/900",
+    "quoteCard": {
+      "icon": "🌱",
+      "text": "Setiap creator hebat berawal dari satu langkah kecil."
+    },
+    "socialProof": {
+      "avatars": ["https://picsum.photos/seed/avatar1/80/80", "https://picsum.photos/seed/avatar2/80/80", "https://picsum.photos/seed/avatar3/80/80"],
+      "text": "Bergabung bersama 30+ Creator Assistant lainnya"
+    }
+  },
+  "stats": [
+    { "icon": "users", "value": "30+", "label": "Creator Assistant Bergabung", "color": "green" },
+    { "icon": "coffee", "value": "10+", "label": "Cafe Dikunjungi", "color": "blue" },
+    { "icon": "video", "value": "50+", "label": "Video Konten Direkam", "color": "orange" },
+    { "icon": "star", "value": "4.9/5", "label": "Kepuasan Program", "color": "gold" },
+    { "icon": "bolt", "value": "100%", "label": "Real Experience di Lapangan", "color": "purple" }
+  ],
+  "whyJoin": {
+    "eyebrow": "Why Join",
+    "heading": "Bukan Sekadar Part-Time,",
+    "headingAccent": "Tapi Pengalaman Berharga.",
+    "body": "Kami mengerti kamu punya banyak kesibukan. Makanya program ini dirancang fleksibel, seru, dan pastinya bermanfaat buat masa depanmu.",
+    "checklist": [
+      "Bingung cari uang jajan tambahan?",
+      "Part-time biasa bikin capek & makan waktu?",
+      "Pengen belajar dunia konten tapi nggak tau mulai dari mana?",
+      "Suka nongkrong tapi ingin lebih produktif?",
+      "Ingin punya pengalaman kerja yang relevan?"
+    ],
+    "closingLine": "rezz.vze adalah jawabannya.",
+    "image": "https://picsum.photos/seed/rezzwhyjoin/700/700"
+  },
+  "benefits": {
+    "eyebrow": "What You'll Get",
+    "heading": "Cuma 2 Jam,",
+    "headingAccent": "Benefitnya Banyak.",
+    "items": [
+      { "icon": "⏱️", "title": "2 Jam / Sesi", "desc": "Nemenin ngobrol & bantu ngonten di kafe", "color": "orange" },
+      { "icon": "💵", "title": "100K–150K / Sesi", "desc": "Potensi 300K–400K dalam sehari", "color": "blue" },
+      { "icon": "🎓", "title": "Training 3x", "desc": "Gratis training on meet & di kafe", "color": "purple" },
+      { "icon": "🚀", "title": "Project Lanjutan", "desc": "Kalau cocok, kamu diajak project berikutnya", "color": "green" },
+      { "icon": "🎥", "title": "Belajar Ngonten", "desc": "Belajar langsung proses pembuatan konten", "color": "blue" },
+      { "icon": "☕", "title": "Nongkrong Seru", "desc": "Sambil nongkrong di cafe favorit", "color": "gold" }
+    ]
+  },
+  "howItWorks": {
+    "eyebrow": "How It Works",
+    "heading": "Gampang Banget",
+    "headingAccent": "Ikuti Langkahnya.",
+    "steps": [
+      { "icon": "📋", "title": "Isi Form", "desc": "Isi data dirimu di form pendaftaran", "color": "green" },
+      { "icon": "💬", "title": "Interview Santai", "desc": "Kita ngobrol santai buat kenal lebih jauh", "color": "purple" },
+      { "icon": "🎓", "title": "Training 3x", "desc": "3x pertemuan di kafe (on meet)", "color": "blue" },
+      { "icon": "🎬", "title": "Mulai Ngonten", "desc": "Temani, ngobrol, rekam, dan jadi bagian tim!", "color": "orange" }
+    ]
+  },
+  "gallery": {
+    "eyebrow": "Behind The Scene",
+    "heading": "Seru, Santai,",
+    "headingAccent": "& Berkesan.",
+    "images": [
+      "https://picsum.photos/seed/rezzgal1/500/650",
+      "https://picsum.photos/seed/rezzgal2/500/650",
+      "https://picsum.photos/seed/rezzgal3/500/650",
+      "https://picsum.photos/seed/rezzgal4/500/650",
+      "https://picsum.photos/seed/rezzgal5/500/650"
+    ]
+  },
+  "requirements": {
+    "eyebrow": "Requirements",
+    "heading": "Syaratnya Gampang.",
+    "headingAccent": "Yang Penting Kamu!",
+    "list": [
+      "Mahasiswa aktif atau fresh graduate (usia 18 tahun ke atas)",
+      "Bisa komunikasi dengan gaya bahasa yang chill",
+      "Bisa nyambung diajak ngobrol soal topik yang mengarah ke konten digital & konten viral",
+      "Percaya diri, ramah, & open minded",
+      "Bersedia ditempatkan di area Surabaya, Mojokerto, Malang, dan Batu",
+      "Bersedia meeting training di kafe"
+    ]
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "heading": "Pertanyaan Yang",
+    "headingAccent": "Sering Ditanya.",
+    "items": [
+      { "q": "Apakah harus punya pengalaman ngonten sebelumnya?", "a": "Nggak harus. Yang penting kamu nyambung diajak ngobrol dan punya rasa penasaran soal dunia konten digital. Skill teknis bisa dipelajari lewat training." },
+      { "q": "Apakah harus punya kamera atau alat sendiri?", "a": "Nggak perlu. Semua alat syuting (kamera, tripod, mic) disediakan. Kamu cukup datang dan jadi diri sendiri." },
+      { "q": "Berapa kali meeting dalam sebulan?", "a": "Setelah training selesai, komitmennya cuma 2 sesi syuting per bulan, jadi nggak ganggu jadwal kuliah atau sekolah." },
+      { "q": "Trainingnya berbayar atau gratis?", "a": "Training 3x pertemuan ini gratis. Kamu nggak perlu bayar apapun untuk ikut program ini." },
+      { "q": "Gimana cara fee-nya dibayar?", "a": "Fee per sesi syuting dibayar langsung di hari yang sama setelah sesi selesai." }
+    ]
+  },
+  "form": {
+    "eyebrow": "Join rezz.vze",
+    "heading": "Siap Grow",
+    "headingAccent": "Bersama? Isi Formulirnya Sekarang!",
+    "consentText": "Dengan mengirim form ini, kamu menyetujui kebijakan privasi kami.",
+    "submitLabel": "Kirim Pendaftaran"
+  },
+  "footer": {
+    "tagline": "Studio kreatif yang tumbuh dari ide, dijalankan dengan visi, dan berkembang bersama orang-orang hebat.",
+    "socials": [
+      { "label": "Instagram", "href": "#" },
+      { "label": "TikTok", "href": "#" },
+      { "label": "YouTube", "href": "#" },
+      { "label": "Email", "href": "#" }
+    ],
+    "quickLinks": [
+      { "label": "Tentang", "href": "#tentang" },
+      { "label": "Proses", "href": "#proses" },
+      { "label": "FAQ", "href": "#faq" },
+      { "label": "Kontak", "href": "#kontak" }
+    ],
+    "location": "Surabaya Raya & Malang Raya, Indonesia",
+    "email": "hello@rezzvze.com",
+    "whatsapp": "6280000000000",
+    "copyright": "© 2026 rezz.vze. All rights reserved."
+  }
+}

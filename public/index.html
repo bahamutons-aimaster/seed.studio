@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>rezz.vze — Creator Assistant Program</title>
+<meta name="description" content="Mulai langkah pertamamu di content creation. Temani, ngobrol, bantu ngonten di kafe 2 jam, dapatkan hingga Rp400.000/hari. Training gratis 3x pertemuan.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <span class="brand-icon" id="brandIcon">🌱</span>
+      <span class="brand-name" id="brandName">rezz.vze</span>
+    </div>
+    <div class="nav-links" id="navLinks"></div>
+    <a href="#daftar" class="btn btn-sm nav-cta" id="navCta">Gabung Sekarang</a>
+  </div>
+</nav>
+
+<header class="hero" id="home">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="hero-badge" id="heroBadge"></span>
+        <h1 class="hero-headline" id="heroHeadline"></h1>
+        <p class="hero-sub" id="heroSub"></p>
+        <div class="hero-cta">
+          <a href="#daftar" class="btn" id="heroCtaPrimary"></a>
+          <a href="#benefit" class="btn btn-outline" id="heroCtaSecondary"></a>
+        </div>
+        <div class="hero-social">
+          <div class="hero-avatars" id="heroAvatars"></div>
+          <span class="hero-social-text" id="heroSocialText"></span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-img-wrap">
+          <img id="heroImage" src="" alt="">
+        </div>
+        <div class="hero-quote-card">
+          <div class="hero-quote-icon" id="heroQuoteIcon"></div>
+          <div class="hero-quote-text" id="heroQuoteText"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="stats">
+  <div class="wrap">
+    <div class="stats-bar" id="statsBar"></div>
+  </div>
+</section>
+
+<section class="why-join" id="tentang">
+  <div class="wrap">
+    <div class="why-grid">
+      <div class="why-visual">
+        <img id="whyJoinImage" src="" alt="">
+      </div>
+      <div>
+        <span class="eyebrow" id="whyEyebrow"></span>
+        <h2 class="why-heading" id="whyHeading"></h2>
+        <p class="why-body" id="whyBody"></p>
+        <div class="check-list" id="whyChecklist"></div>
+        <p class="why-closing" id="whyClosing"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="benefits" id="benefit">
+  <div class="wrap">
+    <div class="benefits-head">
+      <span class="eyebrow" id="benefitsEyebrow" style="justify-content:center;"></span>
+      <h2 id="benefitsHeading"></h2>
+    </div>
+    <div class="benefits-grid" id="benefitsGrid"></div>
+  </div>
+</section>
+
+<section class="how-it-works" id="proses">
+  <div class="wrap">
+    <div class="how-head">
+      <span class="eyebrow" id="howEyebrow" style="justify-content:center;"></span>
+      <h2 id="howHeading"></h2>
+    </div>
+    <div class="steps-row" id="stepsRow"></div>
+  </div>
+</section>
+
+<section class="gallery">
+  <div class="wrap">
+    <div class="gallery-top">
+      <div class="gallery-head">
+        <span class="eyebrow" id="galleryEyebrow"></span>
+        <h2 id="galleryHeading"></h2>
+      </div>
+      <div class="gallery-nav">
+        <button id="galPrev" aria-label="Sebelumnya">←</button>
+        <button id="galNext" aria-label="Selanjutnya">→</button>
+      </div>
+    </div>
+    <div class="gallery-track-wrap">
+      <div class="gallery-track" id="galleryTrack"></div>
+    </div>
+  </div>
+</section>
+
+<section class="bottom-grid" id="faq">
+  <div class="wrap">
+    <div class="bottom-grid-inner">
+
+      <div class="panel" id="syarat">
+        <div class="panel-head">
+          <span class="eyebrow" id="reqEyebrow"></span>
+          <h3 id="reqHeading"></h3>
+        </div>
+        <ul class="req-checklist" id="reqList"></ul>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <span class="eyebrow" id="faqEyebrow"></span>
+          <h3 id="faqHeading"></h3>
+        </div>
+        <div class="faq-list" id="faqList"></div>
+      </div>
+
+      <div class="panel" id="daftar">
+        <div class="panel-head">
+          <span class="eyebrow" id="formEyebrow"></span>
+          <h3 id="formHeading"></h3>
+        </div>
+        <form id="regForm">
+          <div class="form-grid">
+            <div class="form-field">
+              <label>Nama Lengkap</label>
+              <input class="form-input" type="text" name="nama" required>
+            </div>
+            <div class="form-field">
+              <label>Umur</label>
+              <input class="form-input" type="number" name="umur" min="18" max="40" required>
+            </div>
+            <div class="form-field">
+              <label>Domisili (Kota)</label>
+              <input class="form-input" type="text" name="domisili" required>
+            </div>
+            <div class="form-field">
+              <label>Status</label>
+              <select class="form-select" name="status" required>
+                <option value="">Pilih status</option>
+                <option value="Mahasiswa">Mahasiswa</option>
+                <option value="Fresh Graduate">Fresh Graduate</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Instagram</label>
+              <input class="form-input" type="text" name="instagram" placeholder="@username" required>
+            </div>
+            <div class="form-field">
+              <label>Nomor WhatsApp</label>
+              <input class="form-input" type="tel" name="whatsapp" placeholder="08xxxxxxxxxx" required>
+            </div>
+          </div>
+          <div class="form-field full" style="margin-bottom:14px;">
+            <label>Kenapa kamu ingin bergabung di rezz.vze?</label>
+            <textarea class="form-textarea" name="alasan" rows="3" required></textarea>
+          </div>
+          <label class="form-field full" style="flex-direction:row; align-items:flex-start; gap:8px; margin-bottom:14px;">
+            <input type="checkbox" name="confirmAge" required style="margin-top:3px;">
+            <span style="font-size:0.82rem; color:var(--muted);">Saya menyatakan bahwa usia saya 18 tahun ke atas.</span>
+          </label>
+          <button type="submit" class="btn form-submit" id="formSubmitBtn"></button>
+          <p class="form-consent" id="formConsent"></p>
+          <p class="form-err" id="formErr" style="display:none;"></p>
+        </form>
+        <div id="formSuccess" style="display:none;"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer id="kontak">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand">
+          <span class="brand-icon" id="footerBrandIcon">🌱</span>
+          <span class="brand-name" id="footerBrandName">rezz.vze</span>
+        </div>
+        <p class="footer-tagline" id="footerTagline"></p>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <div id="footerSocials"></div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <div id="footerQuickLinks"></div>
+        <h4 style="margin-top:18px;">Location</h4>
+        <div id="footerLocation"></div>
+        <div id="footerEmail"></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copyright" id="footerCopyright"></span>
+      <a href="/admin.html" class="footer-admin">Admin</a>
+    </div>
+  </div>
+</footer>
+
+<button class="chat-bubble" id="chatBubble" aria-label="Chat">💬</button>
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-panel-title">Hai! 👋</div>
+  <div class="chat-panel-sub">Ada pertanyaan soal program ini? Chat langsung lewat WhatsApp.</div>
+  <a href="#" class="btn" id="chatWaBtn" target="_blank" rel="noopener" style="width:100%; justify-content:center;">Mulai Chat</a>
+</div>
+
+<script src="/script.js"></script>
+</body>
+</html>
