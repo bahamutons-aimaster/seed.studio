@@ -10,10 +10,9 @@ const STORE_NAME = 'rezz-vze-content';
 const KEY = 'content';
 
 exports.handler = async (event) => {
-  const store = getStore(STORE_NAME);
-
   if (event.httpMethod === 'GET') {
     try {
+      const store = getStore(STORE_NAME);
       const raw = await store.get(KEY);
       const data = raw ? JSON.parse(raw) : fallbackContent;
       return {
@@ -22,9 +21,11 @@ exports.handler = async (event) => {
         body: JSON.stringify(data),
       };
     } catch (e) {
+      // Blobs not available (first deploy, local dev without link, etc.)
+      // Fall back to the bundled content.json — site will still render correctly.
       return {
         statusCode: 200,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
         body: JSON.stringify(fallbackContent),
       };
     }
@@ -35,12 +36,13 @@ exports.handler = async (event) => {
       return { statusCode: 401, body: JSON.stringify({ error: 'Unauthorized' }) };
     }
     try {
+      const store = getStore(STORE_NAME);
       const body = event.body || '{}';
       JSON.parse(body); // validate it's real JSON before saving
       await store.set(KEY, body);
       return { statusCode: 200, body: JSON.stringify({ ok: true }) };
     } catch (e) {
-      return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON body' }) };
+      return { statusCode: 400, body: JSON.stringify({ error: 'Gagal menyimpan: ' + e.message }) };
     }
   }
 
