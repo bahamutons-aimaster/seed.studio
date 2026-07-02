@@ -89,7 +89,7 @@ function renderFormFooterEditor(container) {
         <div class="cardHead"><strong>Brand</strong></div>
         <div class="fieldGrid">
           <label class="label">
-            Icon / Emoji Logo
+            Icon / Emoji Logo (dipakai kalau SVG kosong)
             <input class="input" id="brandIcon" value="${esc(brand.logoIcon)}" maxlength="4">
           </label>
           <label class="label">
@@ -97,9 +97,12 @@ function renderFormFooterEditor(container) {
             <input class="input" id="brandName" value="${esc(brand.name)}">
           </label>
           <label class="label" style="grid-column:1/-1;">
-            Teks Tombol CTA di Navbar
-            <input class="input" id="navCtaLabel" value="${esc(nav.ctaLabel)}">
+            Logo SVG (opsional — paste kode SVG di sini untuk logo custom, kosongkan untuk pakai emoji)
+            <textarea class="textarea" rows="5" id="brandLogoSvg" style="font-family:var(--mono); font-size:0.78rem;">${esc(brand.logoSvg || '')}</textarea>
           </label>
+        </div>
+        <div style="margin-top:12px; padding:12px; background:rgba(74,222,128,0.06); border-radius:8px; font-size:0.78rem; color:var(--muted); line-height:1.6;">
+          Cara ganti logo: (1) Buat atau download logo dalam format SVG, (2) buka filenya dengan Notepad, (3) copy semua kodenya (dimulai dari &lt;svg...&gt;), (4) paste di kolom SVG di atas. Atau biarkan kosong dan gunakan emoji saja.
         </div>
       </div>
 
@@ -161,6 +164,7 @@ function renderFormFooterEditor(container) {
 
   document.getElementById('brandIcon').addEventListener('input', (e) => { brand.logoIcon = e.target.value; });
   document.getElementById('brandName').addEventListener('input', (e) => { brand.name = e.target.value; });
+  document.getElementById('brandLogoSvg').addEventListener('input', (e) => { brand.logoSvg = e.target.value; });
   document.getElementById('navCtaLabel').addEventListener('input', (e) => { nav.ctaLabel = e.target.value; });
 
   document.getElementById('formEyebrow').addEventListener('input', (e) => { form.eyebrow = e.target.value; });

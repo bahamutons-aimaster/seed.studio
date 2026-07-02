@@ -31,15 +31,19 @@ function waLink(number, text) {
   return `https://wa.me/${number}?text=${msg}`;
 }
 
-const STAT_ICONS = {
-  users: '👥', coffee: '☕', video: '🎬', star: '⭐', bolt: '⚡',
-};
-
 function render(data) {
   // ---- Nav / brand ----
-  document.getElementById('brandIcon').textContent = data.brand.logoIcon;
+  function renderBrandIcon(el) {
+    if (data.brand.logoSvg && data.brand.logoSvg.trim().startsWith('<')) {
+      el.innerHTML = data.brand.logoSvg;
+      el.style.fontSize = '';
+    } else {
+      el.textContent = data.brand.logoIcon || '🌱';
+    }
+  }
+  renderBrandIcon(document.getElementById('brandIcon'));
+  renderBrandIcon(document.getElementById('footerBrandIcon'));
   document.getElementById('brandName').textContent = data.brand.name;
-  document.getElementById('footerBrandIcon').textContent = data.brand.logoIcon;
   document.getElementById('footerBrandName').textContent = data.brand.name;
 
   const navLinks = document.getElementById('navLinks');
@@ -141,13 +145,63 @@ function render(data) {
   if (data.hero.slides.length > 1) resetTimer();
 
   // ---- Stats ----
-  document.getElementById('statsBar').innerHTML = data.stats.map(s => `
+  const STAT_SVG = {
+    users: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+    coffee: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
+    video: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>`,
+    star: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+    bolt: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  };
+
+  // parse a stat value string into numeric + suffix (e.g. "30+" → {num:30, suffix:"+"})
+  function parseStatValue(val) {
+    const match = String(val).match(/^([\d.]+)(.*)$/);
+    if (!match) return { num: null, suffix: val };
+    return { num: parseFloat(match[1]), suffix: match[2] };
+  }
+
+  const statItems = [];
+  document.getElementById('statsBar').innerHTML = data.stats.map((s, i) => `
     <div class="stat-item">
-      <div class="stat-icon ${s.color}">${STAT_ICONS[s.icon] || '✨'}</div>
-      <div class="stat-value">${esc(s.value)}</div>
+      <div class="stat-icon-wrap ${s.color}">${STAT_SVG[s.icon] || STAT_SVG.bolt}</div>
+      <div class="stat-value" data-stat-i="${i}">0</div>
       <div class="stat-label">${esc(s.label)}</div>
     </div>
   `).join('');
+
+  // store parsed targets for counter animation
+  data.stats.forEach((s, i) => statItems.push({ el: document.querySelector(`[data-stat-i="${i}"]`), ...parseStatValue(s.value) }));
+
+  // Intersection Observer — start counter when stats bar enters viewport
+  const statsBar = document.getElementById('statsBar');
+  let countersStarted = false;
+  function startCounters() {
+    if (countersStarted) return;
+    countersStarted = true;
+    statItems.forEach(({ el, num, suffix }) => {
+      if (num === null) { el.textContent = suffix; return; }
+      const duration = 1600;
+      const steps = 50;
+      const inc = num / steps;
+      let current = 0;
+      let step = 0;
+      const isDecimal = String(num).includes('.');
+      const timer = setInterval(() => {
+        step++;
+        current = step >= steps ? num : current + inc;
+        el.textContent = (isDecimal ? current.toFixed(1) : Math.round(current)) + suffix;
+        if (step >= steps) clearInterval(timer);
+      }, duration / steps);
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) startCounters();
+    }, { threshold: 0.3 }).observe(statsBar);
+  } else {
+    startCounters();
+  }
 
   // ---- Why join ----
   document.getElementById('whyJoinImage').src = data.whyJoin.image;
