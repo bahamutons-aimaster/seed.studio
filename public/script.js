@@ -48,21 +48,97 @@ function render(data) {
 
   // ---- Hero ----
   document.getElementById('heroBadge').textContent = data.hero.badge;
-  const lines = data.hero.headlineLines;
-  document.getElementById('heroHeadline').innerHTML = lines
-    .map((line, idx) => idx === data.hero.headlineAccentIndex ? `<span class="accent">${esc(line)}</span>` : esc(line))
-    .join('<br>');
-  document.getElementById('heroSub').textContent = data.hero.subtitle;
   document.getElementById('heroCtaPrimary').textContent = data.hero.ctaPrimary.label;
   document.getElementById('heroCtaPrimary').href = data.hero.ctaPrimary.href;
   document.getElementById('heroCtaSecondary').textContent = data.hero.ctaSecondary.label;
   document.getElementById('heroCtaSecondary').href = data.hero.ctaSecondary.href;
-  document.getElementById('heroImage').src = data.hero.image;
-  document.getElementById('heroQuoteIcon').textContent = data.hero.quoteCard.icon;
-  document.getElementById('heroQuoteText').textContent = data.hero.quoteCard.text;
   document.getElementById('heroAvatars').innerHTML = data.hero.socialProof.avatars
     .map(a => `<img src="${a}" alt="">`).join('');
   document.getElementById('heroSocialText').textContent = data.hero.socialProof.text;
+
+  // Build slide text panels
+  const slidesText = document.getElementById('heroSlidesText');
+  data.hero.slides.forEach((slide, i) => {
+    const div = document.createElement('div');
+    div.className = 'hero-slide-text' + (i === 0 ? ' active' : '');
+    div.dataset.i = i;
+    div.innerHTML = `
+      <h1 class="hero-headline">${slide.headlineLines.map((line, idx) =>
+        idx === slide.headlineAccentIndex
+          ? `<span class="accent">${esc(line)}</span>`
+          : esc(line)
+      ).join('<br>')}</h1>
+      <p class="hero-sub">${esc(slide.subtitle)}</p>
+    `;
+    slidesText.appendChild(div);
+  });
+
+  // Build images
+  const imgWrap = document.getElementById('heroImgWrap');
+  data.hero.slides.forEach((slide, i) => {
+    const img = document.createElement('img');
+    img.src = slide.image;
+    img.alt = '';
+    if (i === 0) img.classList.add('active');
+    imgWrap.appendChild(img);
+  });
+
+  // Build dots
+  const dotsEl = document.getElementById('heroDots');
+  data.hero.slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+    dot.dataset.i = i;
+    dot.setAttribute('aria-label', `Slide ${i + 1}`);
+    dotsEl.appendChild(dot);
+  });
+
+  let currentSlide = 0;
+  let autoTimer = null;
+
+  function goToSlide(idx) {
+    const slides = data.hero.slides;
+    const n = slides.length;
+    const next = (idx + n) % n;
+
+    // text panels
+    document.querySelectorAll('.hero-slide-text').forEach(el => el.classList.remove('active'));
+    document.querySelector(`.hero-slide-text[data-i="${next}"]`).classList.add('active');
+
+    // images
+    imgWrap.querySelectorAll('img').forEach((img, i) => img.classList.toggle('active', i === next));
+
+    // dots
+    document.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('active', i === next));
+
+    // stat card + quote card
+    const slide = slides[next];
+    document.getElementById('heroStatLabel').textContent = slide.statLabel;
+    document.getElementById('heroStatValue').textContent = slide.statValue;
+    document.getElementById('heroStatDesc').textContent = slide.statDesc;
+    document.getElementById('heroQuoteIcon').textContent = slide.quoteIcon;
+    document.getElementById('heroQuoteText').textContent = slide.quoteText;
+
+    currentSlide = next;
+  }
+
+  // init first slide stat/quote
+  goToSlide(0);
+
+  // dot clicks
+  dotsEl.querySelectorAll('.hero-dot').forEach(dot => {
+    dot.addEventListener('click', () => { resetTimer(); goToSlide(+dot.dataset.i); });
+  });
+
+  // arrow clicks
+  document.getElementById('heroPrev').addEventListener('click', () => { resetTimer(); goToSlide(currentSlide - 1); });
+  document.getElementById('heroNext').addEventListener('click', () => { resetTimer(); goToSlide(currentSlide + 1); });
+
+  function resetTimer() {
+    if (autoTimer) clearInterval(autoTimer);
+    autoTimer = setInterval(() => goToSlide(currentSlide + 1), 6000);
+  }
+  if (data.hero.slides.length > 1) resetTimer();
 
   // ---- Stats ----
   document.getElementById('statsBar').innerHTML = data.stats.map(s => `

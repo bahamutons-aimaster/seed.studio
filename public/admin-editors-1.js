@@ -9,27 +9,14 @@ function esc(str) {
 function renderHeroEditor(container) {
   const data = CONTENT.hero;
 
-  const card = h(`
+  const top = h(`
     <div class="editorList">
       <div class="card">
-        <div class="cardHead"><strong>Hero Section</strong></div>
+        <div class="cardHead"><strong>Pengaturan Umum Hero</strong></div>
         <div class="fieldGrid">
           <label class="label" style="grid-column:1/-1;">
             Badge kecil di atas headline
             <input class="input" id="heroBadge" value="${esc(data.badge)}">
-          </label>
-          <label class="label" style="grid-column:1/-1;">
-            Baris Headline (satu per baris)
-            <textarea class="textarea" rows="3" id="heroHeadlineLines">${esc(data.headlineLines.join('\n'))}</textarea>
-          </label>
-          <label class="label">
-            Baris ke berapa yang diwarnai hijau (mulai dari 1)
-            <input class="input" type="number" min="1" id="heroAccentIndex" value="${data.headlineAccentIndex + 1}">
-          </label>
-          <div></div>
-          <label class="label" style="grid-column:1/-1;">
-            Subjudul
-            <textarea class="textarea" rows="3" id="heroSub">${esc(data.subtitle)}</textarea>
           </label>
           <label class="label">
             Teks Tombol CTA Utama
@@ -47,60 +34,122 @@ function renderHeroEditor(container) {
             Link Tombol CTA Sekunder
             <input class="input" id="heroCtaSecondaryHref" value="${esc(data.ctaSecondary.href)}">
           </label>
-        </div>
-        <div id="heroImgUpload"></div>
-      </div>
-
-      <div class="card">
-        <div class="cardHead"><strong>Quote Card (overlay di foto)</strong></div>
-        <div class="fieldGrid">
-          <label class="label">
-            Icon / Emoji
-            <input class="input" id="heroQuoteIcon" value="${esc(data.quoteCard.icon)}" maxlength="4">
-          </label>
-          <div></div>
           <label class="label" style="grid-column:1/-1;">
-            Teks Quote
-            <textarea class="textarea" rows="2" id="heroQuoteText">${esc(data.quoteCard.text)}</textarea>
+            Teks Social Proof (cth: Bergabung bersama 30+...)
+            <input class="input" id="heroSocialText" value="${esc(data.socialProof.text)}">
           </label>
         </div>
       </div>
 
-      <div class="card">
-        <div class="cardHead"><strong>Social Proof (avatar + teks "bergabung bersama...")</strong></div>
-        <label class="label" style="margin-bottom:14px;">
-          Teks Social Proof
-          <input class="input" id="heroSocialText" value="${esc(data.socialProof.text)}">
-        </label>
-        <div id="avatarUploads" style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px;"></div>
-      </div>
+      <div id="heroSlidesList"></div>
+      <button class="btnAdd" id="addSlideBtn">+ Tambah Slide</button>
     </div>
   `);
-  container.appendChild(card);
+  container.appendChild(top);
 
-  document.getElementById('heroBadge').addEventListener('input', (e) => { data.badge = e.target.value; });
-  document.getElementById('heroHeadlineLines').addEventListener('input', (e) => {
-    data.headlineLines = e.target.value.split('\n').filter(Boolean);
-  });
-  document.getElementById('heroAccentIndex').addEventListener('input', (e) => {
-    data.headlineAccentIndex = Math.max(0, (+e.target.value || 1) - 1);
-  });
-  document.getElementById('heroSub').addEventListener('input', (e) => { data.subtitle = e.target.value; });
-  document.getElementById('heroCtaPrimaryLabel').addEventListener('input', (e) => { data.ctaPrimary.label = e.target.value; });
-  document.getElementById('heroCtaPrimaryHref').addEventListener('input', (e) => { data.ctaPrimary.href = e.target.value; });
-  document.getElementById('heroCtaSecondaryLabel').addEventListener('input', (e) => { data.ctaSecondary.label = e.target.value; });
-  document.getElementById('heroCtaSecondaryHref').addEventListener('input', (e) => { data.ctaSecondary.href = e.target.value; });
-  document.getElementById('heroQuoteIcon').addEventListener('input', (e) => { data.quoteCard.icon = e.target.value; });
-  document.getElementById('heroQuoteText').addEventListener('input', (e) => { data.quoteCard.text = e.target.value; });
-  document.getElementById('heroSocialText').addEventListener('input', (e) => { data.socialProof.text = e.target.value; });
+  document.getElementById('heroBadge').addEventListener('input', e => { data.badge = e.target.value; });
+  document.getElementById('heroCtaPrimaryLabel').addEventListener('input', e => { data.ctaPrimary.label = e.target.value; });
+  document.getElementById('heroCtaPrimaryHref').addEventListener('input', e => { data.ctaPrimary.href = e.target.value; });
+  document.getElementById('heroCtaSecondaryLabel').addEventListener('input', e => { data.ctaSecondary.label = e.target.value; });
+  document.getElementById('heroCtaSecondaryHref').addEventListener('input', e => { data.ctaSecondary.href = e.target.value; });
+  document.getElementById('heroSocialText').addEventListener('input', e => { data.socialProof.text = e.target.value; });
 
-  attachUploadField(document.getElementById('heroImgUpload'), 'Ganti Foto Hero Utama', data.image, (url) => { data.image = url; });
+  renderSlidesList();
 
-  const avatarWrap = document.getElementById('avatarUploads');
-  data.socialProof.avatars.forEach((avatar, i) => {
-    const slot = h(`<div></div>`);
-    avatarWrap.appendChild(slot);
-    attachUploadField(slot, `Avatar ${i + 1}`, avatar, (url) => { data.socialProof.avatars[i] = url; });
+  function renderSlidesList() {
+    const list = document.getElementById('heroSlidesList');
+    list.innerHTML = '';
+    data.slides.forEach((slide, i) => {
+      const card = h(`
+        <div class="card">
+          <div class="cardHead">
+            <strong>Slide ${i + 1}: ${esc(slide.headlineLines.join(' '))}</strong>
+            <button class="btnDanger" data-action="remove">Hapus</button>
+          </div>
+          <div class="fieldGrid">
+            <label class="label" style="grid-column:1/-1;">
+              Baris Headline (satu per baris)
+              <textarea class="textarea" rows="3" data-field="headlineLines">${esc(slide.headlineLines.join('\n'))}</textarea>
+            </label>
+            <label class="label">
+              Baris ke berapa yang diwarnai hijau (mulai dari 1)
+              <input class="input" type="number" min="1" data-field="headlineAccentIndex" value="${slide.headlineAccentIndex + 1}">
+            </label>
+            <div></div>
+            <label class="label" style="grid-column:1/-1;">
+              Subjudul
+              <textarea class="textarea" rows="2" data-field="subtitle">${esc(slide.subtitle)}</textarea>
+            </label>
+            <label class="label">
+              Label Stat (kecil, di atas angka)
+              <input class="input" data-field="statLabel" value="${esc(slide.statLabel)}">
+            </label>
+            <label class="label">
+              Nilai Stat (angka besar)
+              <input class="input" data-field="statValue" value="${esc(slide.statValue)}">
+            </label>
+            <label class="label" style="grid-column:1/-1;">
+              Deskripsi Stat
+              <textarea class="textarea" rows="2" data-field="statDesc">${esc(slide.statDesc)}</textarea>
+            </label>
+            <label class="label">
+              Icon Quote (emoji)
+              <input class="input" data-field="quoteIcon" value="${esc(slide.quoteIcon)}" maxlength="4">
+            </label>
+            <label class="label">
+              Teks Quote Card
+              <input class="input" data-field="quoteText" value="${esc(slide.quoteText)}">
+            </label>
+          </div>
+          <div id="heroSlideUpload-${i}"></div>
+        </div>
+      `);
+
+      card.querySelectorAll('[data-field]').forEach(field => {
+        field.addEventListener('input', e => {
+          const key = e.target.dataset.field;
+          if (key === 'headlineLines') {
+            slide.headlineLines = e.target.value.split('\n').filter(Boolean);
+          } else if (key === 'headlineAccentIndex') {
+            slide.headlineAccentIndex = Math.max(0, (+e.target.value || 1) - 1);
+          } else {
+            slide[key] = e.target.value;
+          }
+        });
+      });
+
+      card.querySelector('[data-action="remove"]').addEventListener('click', () => {
+        if (data.slides.length <= 1) { showToast('Minimal harus ada 1 slide.'); return; }
+        if (!confirm('Hapus slide ini?')) return;
+        data.slides.splice(i, 1);
+        renderSlidesList();
+      });
+
+      attachUploadField(
+        card.querySelector(`#heroSlideUpload-${i}`),
+        'Ganti Foto Slide Ini',
+        slide.image,
+        url => { slide.image = url; }
+      );
+
+      list.appendChild(card);
+    });
+  }
+
+  document.getElementById('addSlideBtn').addEventListener('click', () => {
+    data.slides.push({
+      id: `slide-${Date.now()}`,
+      headlineLines: ['Judul', 'Slide', 'Baru.'],
+      headlineAccentIndex: 2,
+      subtitle: 'Deskripsi singkat slide ini.',
+      image: 'https://picsum.photos/seed/rezznewslide' + Date.now() + '/1200/900',
+      statLabel: 'Label Stat',
+      statValue: '0',
+      statDesc: 'Deskripsi stat ini.',
+      quoteIcon: '🌱',
+      quoteText: 'Teks quote card slide ini.',
+    });
+    renderSlidesList();
   });
 }
 

@@ -17,20 +17,50 @@
   },
   "hero": {
     "badge": "Creator Assistant Program",
-    "headlineLines": ["Mulai Langkah", "Pertamamu di", "Content Creation."],
-    "headlineAccentIndex": 2,
-    "subtitle": "Temani, ngobrol, bantu ngonten di kafe selama 2 jam dan dapatkan penghasilan hingga Rp400.000/hari. Training gratis 3x pertemuan. Kalau cocok, lanjut ke project berikutnya!",
     "ctaPrimary": { "label": "Daftar Sekarang", "href": "#daftar" },
     "ctaSecondary": { "label": "Lihat Benefit", "href": "#benefit" },
-    "image": "https://picsum.photos/seed/rezzherobig/1200/900",
-    "quoteCard": {
-      "icon": "🌱",
-      "text": "Setiap creator hebat berawal dari satu langkah kecil."
-    },
     "socialProof": {
       "avatars": ["https://picsum.photos/seed/avatar1/80/80", "https://picsum.photos/seed/avatar2/80/80", "https://picsum.photos/seed/avatar3/80/80"],
       "text": "Bergabung bersama 30+ Creator Assistant lainnya"
-    }
+    },
+    "slides": [
+      {
+        "id": "slide-1",
+        "headlineLines": ["Mulai Langkah", "Pertamamu di", "Content Creation."],
+        "headlineAccentIndex": 2,
+        "subtitle": "Temani, ngobrol, bantu ngonten di kafe selama 2 jam dan dapatkan penghasilan hingga Rp400.000/hari.",
+        "image": "https://picsum.photos/seed/rezzherobig/1200/900",
+        "statLabel": "Per Sesi Syuting",
+        "statValue": "100K–150K",
+        "statDesc": "Cair di hari yang sama. Durasi ±2 jam di kafe area Surabaya Raya & Malang Raya.",
+        "quoteIcon": "🌱",
+        "quoteText": "Setiap creator hebat berawal dari satu langkah kecil."
+      },
+      {
+        "id": "slide-2",
+        "headlineLines": ["Training Gratis,", "Langsung", "Praktek di Kafe."],
+        "headlineAccentIndex": 2,
+        "subtitle": "3x pertemuan training on meet & langsung di kafe — biar lo paham proses syuting dari nol sebelum mulai kerja.",
+        "image": "https://picsum.photos/seed/rezzhero2/1200/900",
+        "statLabel": "Training Sebelum Mulai",
+        "statValue": "3x",
+        "statDesc": "Gratis, dibimbing langsung. Gak ada biaya apapun yang lo keluarkan.",
+        "quoteIcon": "🎓",
+        "quoteText": "Skill ngonten itu bisa dipelajari. Yang penting mau mulai."
+      },
+      {
+        "id": "slide-3",
+        "headlineLines": ["Cocok, Lanjut ke", "Project", "Berikutnya."],
+        "headlineAccentIndex": 2,
+        "subtitle": "Kalau chemistry-nya klik dan hasil kontennya konsisten, ada kesempatan dilibatkan di project kreator selanjutnya.",
+        "image": "https://picsum.photos/seed/rezzhero3/1200/900",
+        "statLabel": "Frekuensi Syuting",
+        "statValue": "2x/bln",
+        "statDesc": "Jadwal fleksibel, cuma 2 sesi per bulan. Gak ganggu kuliah atau kegiatan lain.",
+        "quoteIcon": "🚀",
+        "quoteText": "Dari assistant, bisa jadi partner kreator."
+      }
+    ]
   },
   "stats": [
     { "icon": "users", "value": "30+", "label": "Creator Assistant Bergabung", "color": "green" },
