@@ -311,7 +311,12 @@ h1,h2,h3{ font-family: var(--display); font-weight: 700; letter-spacing: -0.015e
 }
 @media(max-width:600px){
   .cafe-area-cards{ grid-template-columns: 1fr 1fr; }
-  .cafe-area-card:last-child{ grid-column: 1/-1; max-width:200px; margin:0 auto; }
+  .cafe-area-card:last-child{
+    grid-column: 1 / -1;
+    max-width: none;
+    margin: 0;
+  }
+  .cafe-area-card:last-child svg{ height: 140px; }
 }
 
 /* marquee strips */
@@ -552,17 +557,30 @@ footer{ border-top:1px solid var(--line); padding: 60px 0 30px; }
   .hero-quote-card{ bottom:12px; left:12px; max-width:180px; }
 }
 @media (max-width: 600px){
-  /* stats: 2 kolom rata di atas, 1 center di bawah — pakai grid trick */
+  /* stats — 1 kolom, item horizontal */
   .stats-bar{
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 22px 18px;
   }
-  /* Item ke-5 (100%) jadi full width di tengah */
+  .stat-item{
+    flex-direction: row;
+    text-align: left;
+    gap: 16px;
+    justify-content: flex-start;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line);
+  }
   .stat-item:last-child{
-    grid-column: 1 / -1;
-    max-width: 200px;
-    margin: 0 auto;
+    grid-column: auto;
+    max-width: none;
+    margin: 0;
+    border-bottom: none;
   }
+  .stat-icon-wrap{ flex-shrink: 0; width:46px; height:46px; }
+  .stat-value{ font-size: 1.4rem; }
+  .stat-label{ font-size: 0.72rem; }
+
   .benefits-grid{ grid-template-columns: 1fr; }
   .steps-row{ grid-template-columns: 1fr; }
   .form-grid{ grid-template-columns: 1fr; }
