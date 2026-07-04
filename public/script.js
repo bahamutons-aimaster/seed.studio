@@ -216,23 +216,52 @@ function render(data) {
   );
 
   // ---- Benefits ----
+  // ---- Benefits ----
+  const BENEFIT_SVG = {
+    clock: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+    wallet: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="16" cy="15" r="1" fill="currentColor" stroke="none"/></svg>`,
+    graduation: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
+    rocket: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>`,
+    camera: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>`,
+    coffee: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
+  };
+
+  // Map by index order — order in content.json benefits.items matches these keys
+  const BENEFIT_ICON_KEYS = ['clock', 'wallet', 'graduation', 'rocket', 'camera', 'coffee'];
+
   document.getElementById('benefitsEyebrow').textContent = data.benefits.eyebrow;
   document.getElementById('benefitsHeading').innerHTML = `${esc(data.benefits.heading)} <span class="accent">${esc(data.benefits.headingAccent)}</span>`;
-  document.getElementById('benefitsGrid').innerHTML = data.benefits.items.map(b => `
-    <div class="benefit-card">
-      <div class="benefit-icon-wrap ${b.color}">${b.icon}</div>
-      <div class="benefit-title ${b.color}">${esc(b.title)}</div>
-      <div class="benefit-desc">${esc(b.desc)}</div>
-    </div>
-  `).join('');
+  document.getElementById('benefitsGrid').innerHTML = data.benefits.items.map((b, i) => {
+    const iconKey = BENEFIT_ICON_KEYS[i] || 'rocket';
+    const svg = BENEFIT_SVG[iconKey];
+    return `
+      <div class="benefit-card">
+        <div class="benefit-icon-wrap ${b.color}">${svg}</div>
+        <div class="benefit-title ${b.color}">${esc(b.title)}</div>
+        <div class="benefit-desc">${esc(b.desc)}</div>
+      </div>
+    `;
+  }).join('');
 
   // ---- How it works ----
   document.getElementById('howEyebrow').textContent = data.howItWorks.eyebrow;
   document.getElementById('howHeading').innerHTML = `${esc(data.howItWorks.heading)} <span class="accent">${esc(data.howItWorks.headingAccent)}</span>`;
+
+  const STEP_SVG = [
+    // Step 1: Isi Form
+    `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+    // Step 2: Interview Santai
+    `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+    // Step 3: Training 3x
+    `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
+    // Step 4: Mulai Ngonten
+    `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>`,
+  ];
+
   document.getElementById('stepsRow').innerHTML = data.howItWorks.steps.map((s, i) => `
     <div class="step-item">
       <div class="step-num ${s.color}">${i + 1}</div>
-      <div class="step-icon">${s.icon}</div>
+      <div class="step-icon-svg step-icon-${s.color}">${STEP_SVG[i] || STEP_SVG[0]}</div>
       <div class="step-title">${esc(s.title)}</div>
       <div class="step-desc">${esc(s.desc)}</div>
       <div class="step-connector"></div>
