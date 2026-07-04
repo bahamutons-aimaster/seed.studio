@@ -50,6 +50,26 @@ function render(data) {
   navLinks.innerHTML = data.nav.links.map(l => `<a href="${l.href}">${esc(l.label)}</a>`).join('');
   document.getElementById('navCta').textContent = data.nav.ctaLabel;
 
+  // ---- Scarcity Bar ----
+  if (data.scarcity && data.scarcity.enabled) {
+    const remaining = data.scarcity.totalSlots - data.scarcity.takenSlots;
+    const bar = document.getElementById('scarcityBar');
+    if (bar) {
+      bar.innerHTML = `
+        <div class="scarcity-left">
+          <span class="scarcity-pulse"></span>
+          <span class="scarcity-text">Hanya <strong>${remaining} ${esc(data.scarcity.label)}</strong> yang tersedia saat ini</span>
+          <div class="scarcity-slots">
+            ${Array.from({length: data.scarcity.totalSlots}, (_, i) =>
+              `<div class="scarcity-slot${i < data.scarcity.takenSlots ? ' taken' : ''}"></div>`
+            ).join('')}
+          </div>
+        </div>
+        <span class="scarcity-urgency">${esc(data.scarcity.urgencyText)}</span>
+      `;
+    }
+  }
+
   // ---- Hero ----
   document.getElementById('heroBadge').textContent = data.hero.badge;
   document.getElementById('heroCtaPrimary').textContent = data.hero.ctaPrimary.label;
@@ -502,6 +522,45 @@ function render(data) {
   document.getElementById('formSubmitBtn').textContent = data.form.submitLabel;
   document.getElementById('formConsent').textContent = data.form.consentText;
 
+  // ---- Testimonials ----
+  if (data.testimonials) {
+    document.getElementById('testiEyebrow').textContent = data.testimonials.eyebrow;
+    document.getElementById('testiHeading').innerHTML = `${esc(data.testimonials.heading)} <span class="accent">${esc(data.testimonials.headingAccent)}</span>`;
+    document.getElementById('testiGrid').innerHTML = data.testimonials.items.map(t => `
+      <div class="testi-card">
+        <div class="testi-stars">${'<span class="testi-star">★</span>'.repeat(t.rating)}</div>
+        <p class="testi-quote">${esc(t.quote)}</p>
+        <div class="testi-author">
+          <img class="testi-avatar" src="${t.avatar}" alt="${esc(t.name)}">
+          <div>
+            <div class="testi-name">${esc(t.name)}</div>
+            <div class="testi-role">${esc(t.role)}</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ---- WA Links (floating + sticky + chat panel) ----
+  const waNumber = data.footer.whatsapp;
+  const waMsg = encodeURIComponent('Halo, saya mau tanya soal Creator Assistant Program rezz.vze!');
+  const waHref = `https://wa.me/${waNumber}?text=${waMsg}`;
+
+  const waFloatBtn = document.getElementById('waFloatBtn');
+  const stickyWaBtn = document.getElementById('stickyWaBtn');
+  const chatWaBtn = document.getElementById('chatWaBtn');
+  if (waFloatBtn) waFloatBtn.href = waHref;
+  if (stickyWaBtn) stickyWaBtn.href = waHref;
+  if (chatWaBtn) chatWaBtn.href = waHref;
+
+  // Sticky CTA — muncul setelah scroll 600px
+  const stickyCta = document.getElementById('stickyCta');
+  if (stickyCta) {
+    window.addEventListener('scroll', () => {
+      stickyCta.classList.toggle('visible', window.scrollY > 600);
+    }, { passive: true });
+  }
+
   // ---- Footer ----
   document.getElementById('footerTagline').textContent = data.footer.tagline;
   document.getElementById('footerSocials').innerHTML = data.footer.socials.map(s => `<a href="${s.href}" target="_blank" rel="noopener">${esc(s.label)}</a>`).join('');
@@ -509,9 +568,6 @@ function render(data) {
   document.getElementById('footerLocation').textContent = data.footer.location;
   document.getElementById('footerEmail').textContent = data.footer.email;
   document.getElementById('footerCopyright').textContent = data.footer.copyright;
-
-  const waHref = waLink(data.footer.whatsapp);
-  document.getElementById('chatWaBtn').href = waHref;
 
   setupActiveNav();
 }
