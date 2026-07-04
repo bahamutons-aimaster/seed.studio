@@ -85,6 +85,30 @@
     "closingLine": "rezz.vze adalah jawabannya.",
     "image": "https://picsum.photos/seed/rezzwhyjoin/700/700"
   },
+  "cafeSection": {
+    "eyebrow": "Our Locations",
+    "heading": "Meet Up di",
+    "headingAccent": "Kafe Pilihan.",
+    "subtitle": "Semua sesi syuting dilakukan di kafe-kafe estetik di area Mojokerto, Malang, Batu, Pandaan, dan Pasuruan — bukan kantor biasa.",
+    "mapsEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d506689.8!2d112.3!3d-7.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7f4c5f8e7a1a7%3A0x1!2sMojokerto%2C+Jawa+Timur!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid",
+    "areas": ["Mojokerto", "Malang", "Batu", "Pandaan", "Pasuruan"],
+    "cafeLogos": [
+      { "name": "Galeri Kopi", "logo": "https://picsum.photos/seed/logo1/120/120" },
+      { "name": "Jalan Tengah", "logo": "https://picsum.photos/seed/logo2/120/120" },
+      { "name": "Kopi Loe", "logo": "https://picsum.photos/seed/logo3/120/120" },
+      { "name": "Coffee Cafe", "logo": "https://picsum.photos/seed/logo4/120/120" },
+      { "name": "Kane Coffee", "logo": "https://picsum.photos/seed/logo5/120/120" },
+      { "name": "D'IN Coffee", "logo": "https://picsum.photos/seed/logo6/120/120" }
+    ],
+    "cafePhotos": [
+      "https://picsum.photos/seed/cafe1/400/300",
+      "https://picsum.photos/seed/cafe2/400/300",
+      "https://picsum.photos/seed/cafe3/400/300",
+      "https://picsum.photos/seed/cafe4/400/300",
+      "https://picsum.photos/seed/cafe5/400/300",
+      "https://picsum.photos/seed/cafe6/400/300"
+    ]
+  },
   "benefits": {
     "eyebrow": "What You'll Get",
     "heading": "Cuma 2 Jam,",

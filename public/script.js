@@ -215,7 +215,30 @@ function render(data) {
     /(\S+)$/, '<span class="accent">$1</span>'
   );
 
-  // ---- Benefits ----
+
+  // ---- Cafe Section ----
+  document.getElementById('cafeEyebrow').textContent = data.cafeSection.eyebrow;
+  document.getElementById('cafeHeading').innerHTML = `${esc(data.cafeSection.heading)} <span class="accent">${esc(data.cafeSection.headingAccent)}</span>`;
+  document.getElementById('cafeSubtitle').textContent = data.cafeSection.subtitle;
+  document.getElementById('cafeMapsEmbed').src = data.cafeSection.mapsEmbedUrl;
+
+  document.getElementById('cafeAreas').innerHTML = data.cafeSection.areas
+    .map(a => `<div class="cafe-area-chip">${esc(a)}</div>`).join('');
+
+  const logoItems = [...data.cafeSection.cafeLogos, ...data.cafeSection.cafeLogos];
+  document.getElementById('logoMarquee').innerHTML = logoItems.map(c => `
+    <div class="cafe-logo-card">
+      <img src="${c.logo}" alt="${esc(c.name)}" title="${esc(c.name)}">
+    </div>
+  `).join('');
+
+  const photoItems = [...data.cafeSection.cafePhotos, ...data.cafeSection.cafePhotos];
+  document.getElementById('photoMarquee').innerHTML = photoItems.map((p, i) => `
+    <div class="cafe-photo-card">
+      <img src="${p}" alt="Cafe ${(i % data.cafeSection.cafePhotos.length) + 1}" loading="lazy">
+    </div>
+  `).join('');
+
   // ---- Benefits ----
   const BENEFIT_SVG = {
     clock: `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
