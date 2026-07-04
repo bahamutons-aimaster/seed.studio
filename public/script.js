@@ -225,17 +225,21 @@ function render(data) {
   document.getElementById('cafeAreas').innerHTML = data.cafeSection.areas
     .map(a => `<div class="cafe-area-chip">${esc(a)}</div>`).join('');
 
-  const logoItems = [...data.cafeSection.cafeLogos, ...data.cafeSection.cafeLogos];
+  // Logo marquee — 4x duplicate for seamless infinite loop
+  const logoBase = data.cafeSection.cafeLogos;
+  const logoItems = [...logoBase, ...logoBase, ...logoBase, ...logoBase];
   document.getElementById('logoMarquee').innerHTML = logoItems.map(c => `
     <div class="cafe-logo-card">
       <img src="${c.logo}" alt="${esc(c.name)}" title="${esc(c.name)}">
     </div>
   `).join('');
 
-  const photoItems = [...data.cafeSection.cafePhotos, ...data.cafeSection.cafePhotos];
+  // Photo marquee — 4x duplicate for seamless infinite loop
+  const photoBase = data.cafeSection.cafePhotos;
+  const photoItems = [...photoBase, ...photoBase, ...photoBase, ...photoBase];
   document.getElementById('photoMarquee').innerHTML = photoItems.map((p, i) => `
     <div class="cafe-photo-card">
-      <img src="${p}" alt="Cafe ${(i % data.cafeSection.cafePhotos.length) + 1}" loading="lazy">
+      <img src="${p}" alt="Cafe ${(i % photoBase.length) + 1}" loading="lazy">
     </div>
   `).join('');
 
