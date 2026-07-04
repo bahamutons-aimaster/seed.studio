@@ -273,11 +273,46 @@ h1,h2,h3{ font-family: var(--display); font-weight: 700; letter-spacing: -0.015e
 }
 .cafe-area-chip::before{ content:'📍'; font-size:0.8rem; }
 
-.cafe-map{
-  border-radius:20px; overflow:hidden; border:1px solid var(--line);
-  margin-bottom:44px; height:360px;
+.cafe-map{ display:none; } /* hide old maps embed */
+
+/* illustrated area cards */
+.cafe-area-cards{
+  display:grid; grid-template-columns: repeat(5,1fr); gap:14px; margin-bottom:44px;
 }
-.cafe-map iframe{ width:100%; height:100%; display:block; border:none; filter:invert(0.9) hue-rotate(180deg); }
+.cafe-area-card{
+  background: var(--bg-card); border:1px solid var(--line); border-radius:18px;
+  padding:0; overflow:hidden; position:relative;
+  transition: transform .3s, border-color .3s;
+  cursor:default;
+}
+.cafe-area-card:hover{ transform: translateY(-6px); border-color: var(--green); }
+.cafe-area-card:hover .cafe-area-card-overlay{ opacity:1; }
+.cafe-area-illus{
+  width:100%; height:160px; display:block;
+  background: linear-gradient(135deg, var(--bg-card-2), var(--bg-soft));
+}
+.cafe-area-card-body{ padding:14px 16px 18px; }
+.cafe-area-card-name{
+  font-family:var(--display); font-weight:700; font-size:1rem;
+  margin-bottom:4px; color:var(--paper);
+}
+.cafe-area-card-desc{
+  font-size:0.74rem; color:var(--muted); line-height:1.4;
+}
+.cafe-area-card-overlay{
+  position:absolute; top:12px; right:12px;
+  background:var(--green); color:#06140C;
+  border-radius:100px; padding:4px 12px;
+  font-family:var(--mono); font-size:0.62rem; letter-spacing:0.08em;
+  font-weight:600; opacity:0; transition:opacity .2s;
+}
+@media(max-width:980px){
+  .cafe-area-cards{ grid-template-columns: repeat(3,1fr); }
+}
+@media(max-width:600px){
+  .cafe-area-cards{ grid-template-columns: 1fr 1fr; }
+  .cafe-area-card:last-child{ grid-column: 1/-1; max-width:200px; margin:0 auto; }
+}
 
 /* marquee strips */
 .cafe-marquees{ display:flex; flex-direction:column; gap:20px; }
