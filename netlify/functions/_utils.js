@@ -1,5 +1,6 @@
 // netlify/functions/_utils.js
 const crypto = require('crypto');
+const { getStore } = require('@netlify/blobs');
 
 const SESSION_COOKIE = 'rezz_admin_session';
 
@@ -20,4 +21,15 @@ function isAuthed(event) {
   return verifyToken(token, secret);
 }
 
-module.exports = { isAuthed, SESSION_COOKIE };
+// Get a Netlify Blobs store, with manual siteID+token fallback
+// for when the auto-inject context is not available.
+function getBlobStore(name) {
+  const siteID = process.env.NETLIFY_SITE_ID;
+  const token = process.env.NETLIFY_TOKEN;
+  if (siteID && token) {
+    return getStore({ name, siteID, token });
+  }
+  return getStore(name);
+}
+
+module.exports = { isAuthed, SESSION_COOKIE, getBlobStore };
