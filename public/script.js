@@ -547,11 +547,7 @@ function render(data) {
   const waHref = `https://wa.me/${waNumber}?text=${waMsg}`;
 
   const waFloatBtn = document.getElementById('waFloatBtn');
-  const stickyWaBtn = document.getElementById('stickyWaBtn');
-  const chatWaBtn = document.getElementById('chatWaBtn');
   if (waFloatBtn) waFloatBtn.href = waHref;
-  if (stickyWaBtn) stickyWaBtn.href = waHref;
-  if (chatWaBtn) chatWaBtn.href = waHref;
 
   // Sticky CTA — muncul setelah scroll 600px
   const stickyCta = document.getElementById('stickyCta');
@@ -710,7 +706,6 @@ function trackPageView() {
 (async function init() {
   const data = await loadContent();
   if (data) render(data);
-  setupChatBubble();
   setupForm();
   trackPageView();
 })();
