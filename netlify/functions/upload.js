@@ -1,44 +1,9 @@
 // netlify/functions/upload.js
-// POST multipart/form-data with field "file" -> stores image in Netlify Blobs, returns a public URL
-// served via the get-image function.
+// Receives file as base64 JSON body, stores in Netlify Blobs, returns URL.
 
-const { getStore } = require('@netlify/blobs');
+const { getBlobStore } = require('./_utils');
 const { isAuthed } = require('./_utils');
 const crypto = require('crypto');
-
-const STORE_NAME = 'rezz-vze-images';
-
-function parseMultipart(body, contentType) {
-  const boundaryMatch = contentType.match(/boundary=(.+)$/);
-  if (!boundaryMatch) throw new Error('No boundary found');
-  const boundary = '--' + boundaryMatch[1];
-  const bodyBuffer = Buffer.isBuffer(body) ? body : Buffer.from(body, 'binary');
-  const parts = [];
-  let start = bodyBuffer.indexOf(boundary);
-  while (start !== -1) {
-    const next = bodyBuffer.indexOf(boundary, start + boundary.length);
-    if (next === -1) break;
-    const part = bodyBuffer.slice(start + boundary.length, next);
-    parts.push(part);
-    start = next;
-  }
-
-  for (const part of parts) {
-    const headerEnd = part.indexOf('\r\n\r\n');
-    if (headerEnd === -1) continue;
-    const header = part.slice(0, headerEnd).toString('utf8');
-    if (!header.includes('filename=')) continue;
-    const filenameMatch = header.match(/filename="(.+?)"/);
-    const typeMatch = header.match(/Content-Type:\s*(.+)/i);
-    const filename = filenameMatch ? filenameMatch[1] : `upload-${Date.now()}`;
-    const mimeType = typeMatch ? typeMatch[1].trim() : 'application/octet-stream';
-    let data = part.slice(headerEnd + 4);
-    // strip trailing \r\n before next boundary
-    if (data.slice(-2).toString() === '\r\n') data = data.slice(0, -2);
-    return { filename, mimeType, data };
-  }
-  throw new Error('No file part found');
-}
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -49,19 +14,24 @@ exports.handler = async (event) => {
   }
 
   try {
-    const contentType = event.headers['content-type'] || event.headers['Content-Type'];
-    const bodyBuffer = event.isBase64Encoded
-      ? Buffer.from(event.body, 'base64')
-      : Buffer.from(event.body, 'utf8');
+    const body = JSON.parse(event.body || '{}');
+    const { data: base64Data, mimeType, filename } = body;
 
-    const { filename, mimeType, data } = parseMultipart(bodyBuffer, contentType);
+    if (!base64Data || !mimeType) {
+      return { statusCode: 400, body: JSON.stringify({ error: 'Missing data or mimeType' }) };
+    }
 
-    const ext = (filename.split('.').pop() || 'jpg').toLowerCase();
+    const buffer = Buffer.from(base64Data, 'base64');
+    if (buffer.length > 8 * 1024 * 1024) {
+      return { statusCode: 400, body: JSON.stringify({ error: 'File terlalu besar. Maksimal 8MB.' }) };
+    }
+
+    const ext = (filename || 'jpg').split('.').pop().toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
     const id = crypto.randomBytes(8).toString('hex');
     const key = `${Date.now()}-${id}.${ext}`;
 
-    const store = getStore(STORE_NAME);
-    await store.set(key, data, { metadata: { mimeType } });
+    const store = getBlobStore('rezz-vze-images');
+    await store.set(key, buffer, { metadata: { mimeType } });
 
     return {
       statusCode: 200,
@@ -69,6 +39,6 @@ exports.handler = async (event) => {
       body: JSON.stringify({ url: `/.netlify/functions/get-image?key=${encodeURIComponent(key)}` }),
     };
   } catch (e) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Upload failed: ' + e.message }) };
+    return { statusCode: 400, body: JSON.stringify({ error: 'Upload gagal: ' + e.message }) };
   }
 };
