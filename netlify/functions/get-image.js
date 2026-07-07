@@ -1,18 +1,16 @@
 // netlify/functions/get-image.js
 // GET /.netlify/functions/get-image?key=xxx -> serves the stored binary image
 
-const { getStore } = require('@netlify/blobs');
-
-const STORE_NAME = 'rezz-vze-images';
+const { getBlobStore } = require('./_utils');
 
 exports.handler = async (event) => {
   const key = event.queryStringParameters && event.queryStringParameters.key;
   if (!key) return { statusCode: 400, body: 'Missing key' };
 
   try {
-    const store = getStore(STORE_NAME);
+    const store = getBlobStore('rezz-vze-images');
     const result = await store.getWithMetadata(key, { type: 'arrayBuffer' });
-    if (!result) return { statusCode: 404, body: 'Not found' };
+    if (!result || !result.data) return { statusCode: 404, body: 'Not found' };
 
     const mimeType = (result.metadata && result.metadata.mimeType) || 'image/jpeg';
     const buffer = Buffer.from(result.data);
@@ -27,6 +25,6 @@ exports.handler = async (event) => {
       isBase64Encoded: true,
     };
   } catch (e) {
-    return { statusCode: 404, body: 'Not found' };
+    return { statusCode: 404, body: 'Not found: ' + e.message };
   }
 };
