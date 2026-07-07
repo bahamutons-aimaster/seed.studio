@@ -30,15 +30,6 @@ async function api(path, opts = {}) {
   return res;
 }
 
-async function uploadFile(file) {
-  const fd = new FormData();
-  fd.append('file', file);
-  const res = await fetch('/api/upload', { method: 'POST', body: fd, credentials: 'same-origin' });
-  if (!res.ok) throw new Error('Upload gagal');
-  const data = await res.json();
-  return data.url;
-}
-
 function deepClone(obj) { return JSON.parse(JSON.stringify(obj)); }
 
 // ---------- LOGIN VIEW ----------
@@ -218,22 +209,60 @@ function attachUploadField(container, label, currentUrl, onUploaded) {
   `);
   const input = wrap.querySelector('.fileInput');
   const labelText = wrap.querySelector('.uploadLabelText');
+
   input.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    // Size check client-side
+    if (file.size > 8 * 1024 * 1024) {
+      labelText.textContent = '✕ File terlalu besar (maks 8MB)';
+      setTimeout(() => { labelText.textContent = `📎 ${label}`; }, 3000);
+      input.value = '';
+      return;
+    }
+
     labelText.textContent = 'Uploading…';
+
     try {
-      const url = await uploadFile(file);
+      // Convert to base64
+      const base64Data = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          data: base64Data,
+          mimeType: file.type,
+          filename: file.name,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'Upload gagal');
+      }
+
+      const { url } = await res.json();
       onUploaded(url);
       labelText.textContent = '✓ Berhasil diupload!';
-      setTimeout(() => { labelText.textContent = `📎 ${label}`; }, 2000);
-      renderTab(); // re-render to show new preview
+      setTimeout(() => {
+        labelText.textContent = `📎 ${label}`;
+        renderTab();
+      }, 1500);
     } catch (err) {
-      labelText.textContent = '✕ Upload gagal';
-      setTimeout(() => { labelText.textContent = `📎 ${label}`; }, 2000);
+      labelText.textContent = '✕ ' + (err.message || 'Upload gagal');
+      setTimeout(() => { labelText.textContent = `📎 ${label}`; }, 3000);
     }
     input.value = '';
   });
+
   container.appendChild(wrap);
 }
 
